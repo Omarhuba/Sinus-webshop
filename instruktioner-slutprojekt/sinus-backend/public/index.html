@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Sinus Webshop REST API</h1>
+    <h2>Documentation</h2>
+    <section class="api">
+
+      <table>
+        <thead>
+          <th>EndPoint</th>
+          <th>Details</th>
+          <th>Body</th>
+          <th>Query</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>POST</strong> /api/auth/</td>
+            <td>	Authentiserar user med email & password. Returnerar en JWT-token som används vid varje anrop API:et i en Authorization-header.</td>
+            <td>
+  <pre>
+  <code>
+  {
+    "email": "...", 
+    "password" : "..."
+  }
+  </code>
+  </pre>
+            </td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>POST</strong> /api/register/</td>
+            <td>Registrerar en användare.</td>
+            <td>
+  <pre>
+  <code>
+  {
+    "email": "...", 
+    "password" : "...",
+    "name": "...",
+    "address": {
+      "city": "...",
+      "street": "...",
+      "zip": "...",
+    }
+  }
+  </code>
+  </pre>
+            </td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>GET</strong> /api/items/</td>
+            <td>Hämtar en paginerad lista på produkter.</td>
+            <td class="none">❌</td>
+            <td> <a href="#queries">Läs mer</a>  <br>category<br> page<br> pageSize<br>exclude<br>search</td>
+          </tr>
+          <tr>
+            <td><strong>GET</strong> /api/items/:id</td>
+            <td>Hämtar en enstaka produkt.</td>
+            <td class="none">❌</td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>POST</strong> /api/items/</td>
+            <td>Skapar en ny produkt. Enbart tillgänglig för admins</td>
+            <td>
+  <pre>
+  <code>
+    {
+      "title": "...",
+      "shortDesc": "...",
+      "longDesc": "...",
+      "imgFile": "...",
+      "category": "...",
+      "price": ...
+    }
+  </code>
+  </pre>
+            </td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>PATCH</strong> /api/items/:id</td>
+            <td>Uppdaterar produkt. Enbart tillgänglig för admins.</td>
+            <td>
+  <pre>
+  <code>
+  {
+    "title": "...",
+    "shortDesc": "...",
+    "longDesc": "...",
+    "imgFile": "...",
+    "category": "...",
+    "price": ...
+  }
+  </code>
+  </pre>      
+            </td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>DELETE</strong> /api/items/:id</td>
+            <td>Tar bort en produkt med :id. Enbart tillgänglig för admins.</td>
+            <td class="none">❌</td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>GET</strong> /api/orders</td>
+            <td>Hämtar en lista på den användarens ordrar eller samtliga ordrar för admins.</td>
+            <td class="none">❌</td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>POST</strong> /api/orders</td>
+            <td>Skapar en ny order.</td>
+            <td>
+  <pre>
+  <code>
+  {
+    "items": [
+      productId1, 
+      productId2,
+      ...
+    ],
+    //Optional for authenticated user
+    "shippingAddress": { 
+      "city": "...",
+      "street": "...",
+      "zip": "..."
+    }
+  }
+  </code>
+  </pre>
+            </td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>PATCH</strong> /api/orders/:id</td>
+            <td>Uppdaterar en orders status. Enbart tillgänglig för admins.</td>
+            <td>
+  <pre>
+  <code>
+  {
+    "status": "..."
+  }
+  </code>
+  </pre>
+            </td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>GET</strong> /api/me</td>
+            <td>Hämtar den inloggade användaren.</td>
+            <td class="none"></td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>PATCH</strong> /api/me</td>
+            <td>Uppdaterar profilen för den inloggade användren.</td>
+            <td>
+  <pre>
+  <code>
+    {
+      "email": "svenne@banan.se",
+      "password": "tårta",
+      "address": {
+        "city": "Liljeholmen",
+        "street": "Piren",
+        "zip": "24nånting"
+      }
+    }
+  </code>
+  </pre>
+            </td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>GET</strong> /api/images</td>
+            <td>Hämtar en lista på alla tillgängliga bilder. Enbart tillgänglig för admins.</td>
+            <td class="none">❌</td>
+            <td class="none">❌</td>
+          </tr>
+          <tr>
+            <td><strong>POST</strong> /api/images</td>
+            <td>Multipart Form. Laddar upp en bild. Enbart tillgänglig för admins.</td>
+            <td>imgFile</td>
+            <td class="none">❌</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="details">
+      <article class="images">
+        <h2>Images</h2>
+        <p>Bildfiler finns bakom sökvägen /images</p>
+        <p class="example">
+          <code>
+            http://example.com/images/sinus-cap-blue.png
+          </code>
+        </p>
+      </article>
+      <article class="list-queryies" id="queries">
+        <h2>Queries for GET /api/items</h2>
+        
+        <div class="query-info">
+          <p class="name">Name: page</p>
+          <p class="type">Type: Number</p>
+          <p class="description">
+            Om resultatet är större än `pageSize` hämtar du nästa sida med denna
+          </p>
+          <p class="example">
+            Exempel
+            <code>
+              GET /api/items?page=2
+            </code>
+          </p>
+        </div>
+        <div class="query-info">
+          <p class="name">Name: pageSize</p>
+          <p class="type">Type: Number</p>
+          <p class="description">
+            Styr hur många items ni får tillbaka, minimum 1, maximum 10
+          </p>
+          <p class="example">
+            Exempel
+            <code>
+              GET /api/items?pageSize=5
+            </code>
+          </p>
+        </div>
+        <div class="query-info">
+          <p class="name">Name: category</p>
+          <p class="type">Type: String</p>
+          <p class="description">
+            Filtrerar beroende på kategori. Måste vara någon av cap, hoodie, wheel,tshirt, totebag, skateboard eller socks
+          </p>
+          <p class="example">
+            Exempel
+            <code>
+              GET /api/items?category=socks
+            </code>
+          </p>
+        </div>
+        <div class="query-info">
+          <p class="name">Name: exclude</p>
+          <p class="type">Type: String</p>
+          <p class="description">
+            Filtrerar bort beroende på kategori. Kan innehålla flera värden komma-separerade.
+          </p>
+          <p class="example">
+            Exempel
+            <code>
+              GET /api/items?exclude=socks
+            </code>
+          </p>
+          <p class="example">
+            Exempel
+              <code>
+                GET /api/items?exclude=socks,hoodie,tshirt,socks
+              </code>
+          </p>
+        </div>
+        <div class="query-info">
+          <p class="name">Name: search</p>
+          <p class="type">Type: String</p>
+          <p class="description">
+            Söker bland produktnamn, case insensitive.
+          </p>
+          <p class="example">
+            Exempel
+            <code>
+              GET /api/items?search=greta
+            </code>
+          </p>         
+        </div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>
